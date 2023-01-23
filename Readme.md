@@ -1,0 +1,1 @@
+"write to file logs/type_%Y-%m-%d_%H-%M-%S a text"
