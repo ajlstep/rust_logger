@@ -12,7 +12,7 @@ pub struct Logger {
 }
 
 impl Logger {
-    fn new() -> Logger {
+    pub fn new() -> Logger {
         let now = Local::now().format("%Y-%m-%d_%H-%M-%S");
 
         let warn_log_file = format!("logs/warnings_{}.log", now);
@@ -100,5 +100,66 @@ impl Logger {
             Ok(_) => (),
             Err(e) => println!("{}", e),
         }       
+    }
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::path::Path;
+
+    #[test]
+    fn test_warn_logger() {
+        let logger = Logger::new();
+        logger.warn_logger("This is a warning message", "path/to/file", "Some additional information");
+
+        // Assert that the log file was created
+        assert!(Path::new(&logger.warn_log_file).exists());
+    }
+
+    #[test]
+    fn test_info_logger() {
+        let logger = Logger::new();
+        logger.info_logger("This is an information message", "path/to/file", "Some additional information");
+
+        // Assert that the log file was created
+        assert!(Path::new(&logger.info_log_file).exists());
+    }
+
+    #[test]
+    fn test_error_logger() {
+        let logger = Logger::new();
+        logger.error_logger("This is an error message", "path/to/file", "Some additional information");
+
+        // Assert that the log file was created
+        assert!(Path::new(&logger.err_log_file).exists());
+    }
+
+    #[test]
+    fn test_panic_logger() {
+        let logger = Logger::new();
+        logger.panic_logger("This is a panic message", "path/to/file", "Some additional information");
+
+        // Assert that the log file was created
+        assert!(Path::new(&logger.panic_log_file).exists());
+    }
+
+    #[test]
+    fn test_fatal_logger() {
+        let logger = Logger::new();
+        logger.fatal_logger("This is a fatal message", "path/to/file", "Some additional information");
+
+        // Assert that the log file was created
+        assert!(Path::new(&logger.fatal_log_file).exists());
+    }
+
+    #[test]
+    fn test_conection_logger() {
+        let logger = Logger::new();
+        logger.connection_logger("This is a conection message", "path/to/file", "Some additional information");
+
+        // Assert that the log file was created
+        assert!(Path::new(&logger.conection_log_file).exists());
     }
 }
